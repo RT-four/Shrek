@@ -87,68 +87,68 @@ app.get("/users/logout", (req, res) => {
   res.render("index", { message: "You have logged out successfully" });
 });
 
-app.post("/users/admin", async(req, res) => {
-  let { name, email, password, password2 } = req.body;
-  let errors = [];
+// app.post("/users/admin", async(req, res) => {
+//   let { name, email, password, password2 } = req.body;
+//   let errors = [];
 
-  console.log({
-    name,
-    email,
-    password,
-    password2
-  });
+//   console.log({
+//     name,
+//     email,
+//     password,
+//     password2
+//   });
 
-  if (!name || !email || !password || !password2) {
-    errors.push({ message: "Please enter all fields" });
-  }
+//   if (!name || !email || !password || !password2) {
+//     errors.push({ message: "Please enter all fields" });
+//   }
 
-  if (password.length < 6) {
-    errors.push({ message: "Password must be a least 6 characters long" });
-  }
+//   if (password.length < 6) {
+//     errors.push({ message: "Password must be a least 6 characters long" });
+//   }
 
-  if (password !== password2) {
-    errors.push({ message: "Passwords do not match" });
-  }
+//   if (password !== password2) {
+//     errors.push({ message: "Passwords do not match" });
+//   }
 
-  if (errors.length > 0) {
-    res.render("admin", { errors, name, email, password, password2 });
-  } else {
-    hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
-    // Validation passed
-    pool.query(
-      `SELECT * FROM users
-        WHERE email = $1`,
-      [email],
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(results.rows);
+//   if (errors.length > 0) {
+//     res.render("admin", { errors, name, email, password, password2 });
+//   } else {
+//     hashedPassword = await bcrypt.hash(password, 10);
+//     console.log(hashedPassword);
+//     // Validation passed
+//     pool.query(
+//       `SELECT * FROM users
+//         WHERE email = $1`,
+//       [email],
+//       (err, results) => {
+//         if (err) {
+//           console.log(err);
+//         }
+//         console.log(results.rows);
 
-        if (results.rows.length > 0) {
-          return res.render("register", {
-            message: "Email already registered"
-          });
-        } else {
-          pool.query(
-            `INSERT INTO users (name, email, password)
-                VALUES ($1, $2, $3)
-                RETURNING id, password`,
-            [name, email, hashedPassword],
-            (err, results) => {
-              if (err) {
-                throw err;
-              }
-              console.log(results.rows);
-              res.render("admin");
-            }
-          );
-        }
-      }
-    );
-  };
-});
+//         if (results.rows.length > 0) {
+//           return res.render("register", {
+//             message: "Email already registered"
+//           });
+//         } else {
+//           pool.query(
+//             `INSERT INTO users (name, email, password)
+//                 VALUES ($1, $2, $3)
+//                 RETURNING id, password`,
+//             [name, email, hashedPassword],
+//             (err, results) => {
+//               if (err) {
+//                 throw err;
+//               }
+//               console.log(results.rows);
+//               res.render("admin");
+//             }
+//           );
+//         }
+//       }
+//     );
+//   };
+// });
 
 app.post("/users/register", async (req, res) => {
   let { name, email, password, password2 } = req.body;
@@ -224,14 +224,14 @@ app.post(
   })
 );
 
-app.post(
-  "/users/admin",
-  passport.authenticate("local", {
-    successRedirect: "/users/dashboard",
-    failureRedirect: "/users/admin",
-    failureFlash: true
-  })
-);
+// app.post(
+//   "/users/admin",
+//   passport.authenticate("local", {
+//     successRedirect: "/users/dashboard",
+//     failureRedirect: "/users/admin",
+//     failureFlash: true
+//   })
+// );
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
