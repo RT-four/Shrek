@@ -111,7 +111,7 @@ app.post("/users/admin", async(req, res) => {
   }
 
   if (errors.length > 0) {
-    res.render("register", { errors, name, email, password, password2 });
+    res.render("admin", { errors, name, email, password, password2 });
   } else {
     hashedPassword = await bcrypt.hash(password, 10);
     console.log(hashedPassword);
@@ -141,7 +141,7 @@ app.post("/users/admin", async(req, res) => {
                 throw err;
               }
               console.log(results.rows);
-              res.render("/users/admin");
+              res.render("admin");
             }
           );
         }
