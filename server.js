@@ -141,8 +141,7 @@ app.post("/users/admin", async(req, res) => {
                 throw err;
               }
               console.log(results.rows);
-              req.flash("success_msg", "You are now registered. Please log in");
-              res.redirect("/users/admin");
+              res.render("/users/admin");
             }
           );
         }
