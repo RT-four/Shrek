@@ -41,7 +41,7 @@ app.use(flash());
 
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/frontend/index.html");
+  res.render("indexM");
 });
 
 app.get("/registration", (req, res) => {
