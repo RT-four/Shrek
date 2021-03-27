@@ -87,7 +87,7 @@ app.get("/users/logout", (req, res) => {
   res.render("index", { message: "You have logged out successfully" });
 });
 
-app.post("/users/addUser", async(req, res) => {
+app.post("/users/admin", async(req, res) => {
   let { name, email, password, password2 } = req.body;
   let errors = [];
 
@@ -142,7 +142,7 @@ app.post("/users/addUser", async(req, res) => {
               }
               console.log(results.rows);
               req.flash("success_msg", "You are now registered. Please log in");
-              res.redirect("/users/login");
+              res.redirect("/users/admin");
             }
           );
         }
