@@ -5,11 +5,6 @@ const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 require("dotenv").config();
-
-const bodyParser = require("body-parser");
-const ejs = require("ejs");
-const _ = require("lodash");
-
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -18,15 +13,13 @@ const initializePassport = require("./passportConfig");
 
 initializePassport(passport);
 
+app.use(express.static(__dirname + '/public'));
+
 // Middleware
 
 // Parses details from a form
 app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
-
-// app.use(bodyParser.urlencoded({extended: true}));
-
-app.use(express.static(__dirname + '/public'));
 
 app.use(
   session({
@@ -44,12 +37,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
-
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/frontend/index.html");
 });
 
+// app.get("/", (req, res) => {
+//   res.render("index");  
+// });
 app.get("/frontend/registration", (req, res) => {
   res.render("index");  
 });
@@ -57,15 +51,6 @@ app.get("/frontend/registration", (req, res) => {
 app.get("/registration", (req, res) => {
   res.render("index");  
 });
-
-app.get("/users/admin", (req, res) => {
-  res.render("admin");
-})
-
-app.get("/admin", (req, res) => {
-  res.render("admin");
-})
-
 
 app.get("/users/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
@@ -86,69 +71,6 @@ app.get("/users/logout", (req, res) => {
   req.logout();
   res.render("index", { message: "You have logged out successfully" });
 });
-
-// app.post("/users/admin", async(req, res) => {
-//   let { name, email, password, password2 } = req.body;
-//   let errors = [];
-
-//   console.log({
-//     name,
-//     email,
-//     password,
-//     password2
-//   });
-
-//   if (!name || !email || !password || !password2) {
-//     errors.push({ message: "Please enter all fields" });
-//   }
-
-//   if (password.length < 6) {
-//     errors.push({ message: "Password must be a least 6 characters long" });
-//   }
-
-//   if (password !== password2) {
-//     errors.push({ message: "Passwords do not match" });
-//   }
-
-//   if (errors.length > 0) {
-//     res.render("admin", { errors, name, email, password, password2 });
-//   } else {
-//     hashedPassword = await bcrypt.hash(password, 10);
-//     console.log(hashedPassword);
-//     // Validation passed
-//     pool.query(
-//       `SELECT * FROM users
-//         WHERE email = $1`,
-//       [email],
-//       (err, results) => {
-//         if (err) {
-//           console.log(err);
-//         }
-//         console.log(results.rows);
-
-//         if (results.rows.length > 0) {
-//           return res.render("register", {
-//             message: "Email already registered"
-//           });
-//         } else {
-//           pool.query(
-//             `INSERT INTO users (name, email, password)
-//                 VALUES ($1, $2, $3)
-//                 RETURNING id, password`,
-//             [name, email, hashedPassword],
-//             (err, results) => {
-//               if (err) {
-//                 throw err;
-//               }
-//               console.log(results.rows);
-//               res.render("admin");
-//             }
-//           );
-//         }
-//       }
-//     );
-//   };
-// });
 
 app.post("/users/register", async (req, res) => {
   let { name, email, password, password2 } = req.body;
@@ -223,15 +145,6 @@ app.post(
     failureFlash: true
   })
 );
-
-// app.post(
-//   "/users/admin",
-//   passport.authenticate("local", {
-//     successRedirect: "/users/dashboard",
-//     failureRedirect: "/users/admin",
-//     failureFlash: true
-//   })
-// );
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
