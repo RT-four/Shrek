@@ -5,6 +5,11 @@ const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 require("dotenv").config();
+
+const bodyParser = require("body-parser");
+const ejs = require("ejs");
+const _ = require("lodash");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -84,7 +89,6 @@ app.get("/users/logout", (req, res) => {
 
 app.post("/addUser", async(req, res) => {
   let { name, email, password, password2 } = req.body;
-
   let errors = [];
 
   console.log({
