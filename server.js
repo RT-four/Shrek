@@ -224,6 +224,15 @@ app.post(
   })
 );
 
+app.post(
+  "/users/admin",
+  passport.authenticate("local", {
+    successRedirect: "/users/dashboard",
+    failureRedirect: "/users/admin",
+    failureFlash: true
+  })
+);
+
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return res.redirect("/users/dashboard");
