@@ -87,7 +87,7 @@ app.get("/users/logout", (req, res) => {
   res.render("index", { message: "You have logged out successfully" });
 });
 
-app.post("/addUser", async(req, res) => {
+app.post("/users/addUser", async(req, res) => {
   let { name, email, password, password2 } = req.body;
   let errors = [];
 
