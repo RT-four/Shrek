@@ -79,6 +79,18 @@
     <li><%= error.message %></li>
     <% }) %> <% } %>
   </ul>
+
+  <ul>
+    <% if(messages.success_msg) { %>
+    <li><%= messages.success_msg %></li>
+    <% } %>
+  </ul>
+
+  <ul>
+    <% if (messages.error) { %>
+    <li><%= messages.error %></li>
+    <% } %>
+  </ul>
   <form action="/users/admin" method="POST">
     <div>
       <input type="text" id="name" name="name" placeholder="Name" required />
