@@ -74,9 +74,9 @@
     </div>
   </header><!-- End Header -->
 <div class="container-fluid cont">
-  <form class="" action="/compose" method="post">
+  <form class="" action="/addUser" method="post">
     <div class="form-group">
-      <label>Имя</label>
+      <!-- <label>Имя</label>
       <input class="form-control" type="text" name="name">
       <label>Фамилия</label>
       <input class="form-control" type="text" name="sername">
@@ -86,7 +86,15 @@
       <input class="form-control" type="text" name="passwd">
       <label>Email</label>
       <input class="form-control" type="text" name="email">
-    </div>
+    </div> -->
+    <label>Name</label>
+    <input class="form-control" type="text" name="name">
+    <label>Email</label>
+    <input class="form-control" type="text" name="email">
+    <label>Pass</label>
+    <input class="form-control" type="text" name="password">
+    <label>PassAgain</label>
+    <input class="form-control" type="text" name="password2">
     <button class="btn btn-primary" type="submit" name="button">Publish</button>
   </form>
 </div>
